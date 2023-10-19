@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -13,6 +14,7 @@ import { STATUS } from "../constants/status.constants";
 import { PRIORITIES } from "../constants/priorities.constant";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
+import { isEmpty } from "../utils/validators";
 
 const style = {
   position: "absolute",
@@ -36,17 +38,26 @@ const defaultValue = {
 };
 
 const ModalComponent = (props) => {
-  const { open, handleClose } = props;
+  const { open, handleClose, pendings } = props;
   const dispatch = useDispatch();
   const [data, setData] = useState(defaultValue);
 
   const handleData = (e) => {
-    console.log(e);
     const { name, value } = e.target;
     setData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSendData = () => {
+    if (isEmpty(data.text)) {
+      alert('Please type the text');
+      return;
+    }
+    const findDuplicate = pendings.find((i) => i.text === data.text);
+    if (findDuplicate) {
+      alert('There is already a task with that description');
+      return;
+    }
+
     dispatch(addPendings({ ...data, dueDate: data.dueDate.format() }));
     handleClose();
   };

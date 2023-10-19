@@ -1,5 +1,7 @@
+/* eslint-disable react/prop-types */
 import "./styles/card.style.css";
-import React, { useState, useEffect, useMemo } from "react";
+// eslint-disable-next-line no-unused-vars
+import React, { useMemo } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -53,7 +55,10 @@ const CardComponent = (props) => {
     <Card
       draggable
       {...rest}
-      sx={{ background: timeAgo && timeAgo.isDue ? "#FFD6D6" : "#FFF" }}
+      sx={{
+        background: timeAgo && timeAgo.isDue ? "#FFD6D6" : "#FFF",
+        cursor: "grab",
+      }}
     >
       <CardContent sx={{ position: "relative" }}>
         <CardHeader text={priority} />

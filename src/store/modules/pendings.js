@@ -12,7 +12,6 @@ export const pendingSlice = createSlice({
   },
   reducers: {
     setPendings: (state, action) => {
-      console.log(action.payload);
       return {
         ...state,
         data: action.payload,
@@ -20,7 +19,6 @@ export const pendingSlice = createSlice({
     },
     addPendings: (state, action) => {
       const { status } = action.payload;
-      console.log("payload: ", action.payload);
       return {
         ...state,
         activeCount:

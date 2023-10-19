@@ -12,6 +12,7 @@ import Typography from "@mui/material/Typography";
 import useDraggable from "../hooks/useDraggable";
 import SortIcon from "@mui/icons-material/Sort";
 import { Box } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 
 const Index = () => {
   const [open, setOpen] = useState(false);
@@ -69,16 +70,31 @@ const Index = () => {
 
   return (
     <>
+      <Button
+        onClick={() => {}}
+        variant="text"
+        startIcon={<MenuIcon sx={{ color: "#000", fontSize: 5 }} />}
+        sx={{ position: "absolute", top: 0, left: 0, margin: "1rem" }}
+      ></Button>
       <Box
         padding={{ xs: "6rem 1rem", lg: "6rem" }}
-        sx={{ border: "solid", position: "relative" }}
+        marginTop={6}
+        sx={{ border: "solid #43ED3F", position: "relative" }}
       >
-        <Modal open={open} handleClose={handleClose} handleOpen={handleOpen} />
+        <Modal open={open} pendings={pendings} handleClose={handleClose} handleOpen={handleOpen} />
         <Button
           onClick={handleSort}
-          variant="outlined"
+          variant="contained"
           startIcon={<SortIcon />}
-          sx={{ position: "absolute", top: 0, right: 0, margin: "1rem" }}
+          sx={{
+            position: "absolute",
+            top: 0,
+            right: 0,
+            margin: "1rem",
+            border: 'solid 1px #43ED3F',
+            color: '#FFF',
+            background: "#43ED3F",
+          }}
         >
           SORT BY DUE DATE
         </Button>
@@ -90,7 +106,7 @@ const Index = () => {
         >
           <Grid item display="flex" sm={12} md={6} lg={3} minWidth={205}>
             <Button
-              sx={{ width: "100%", minHeight: "216.516px" }}
+              sx={{ width: "100%", minHeight: "216.516px", background: "#FFF", border: 'solid 1px #43ED3F', color: '#43ED3F' }}
               variant="outlined"
               startIcon={<AddIcon />}
               onClick={handleOpen}
