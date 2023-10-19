@@ -1,5 +1,5 @@
 export const STATUS = {
-	ACTIVE: 'active',
-	DONE: 'done',
-	DELETED: 'deleted',
-}
+  ACTIVE: "active",
+  DONE: "done",
+  DELETED: "deleted",
+};

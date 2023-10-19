@@ -1,16 +1,15 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 //import thunkMiddleware from 'redux-thunk';
 
-import pendingsReducer from './modules/pendings';
+import pendingsReducer from "./modules/pendings";
 
 export const mainReducer = combineReducers({
-	pendings: pendingsReducer,
+  pendings: pendingsReducer,
 });
 
-
 const store = configureStore({
-	reducer: mainReducer,
-	//middleware: [thunkMiddleware],
+  reducer: mainReducer,
+  //middleware: [thunkMiddleware],
 });
 
 export default store;
