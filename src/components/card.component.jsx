@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import "./styles/card.style.css";
+import React, { useState, useEffect, useMemo } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -8,28 +9,77 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { STATUS } from "../constants/status.constants";
 import Grid from "@mui/material/Grid";
-import Chip from "@mui/material/Chip";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import Divider from "@mui/material/Divider";
+import { PRIORITIES_COLORS } from "../constants/priorities.constant";
+import { toTimeAgo, isBetweenDates } from "../utils/timeAgo";
 
+const CardHeader = (props) => {
+  const { text } = props;
+  return (
+    <header
+      style={{
+        width: "100%",
+        background: PRIORITIES_COLORS[text.toUpperCase()],
+        textTransform: "capitalize",
+        position: "absolute",
+        left: 0,
+        top: 0,
+        height: "2rem",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontWeight: "bold",
+        color: "white",
+      }}
+    >
+      {text}
+    </header>
+  );
+};
 //statuses allowed: Active, Done, Deleted
 const CardComponent = (props) => {
-  const { priority, text, status, id, handleStatus, ...rest } = props;
+  const { priority, text, status, id, dueDate, handleStatus, ...rest } = props;
+
+  const timeAgo = useMemo(() => {
+    if (!dueDate) return null;
+    return {
+      date: toTimeAgo(dueDate),
+      isDue: isBetweenDates(dueDate),
+    };
+  }, [dueDate]);
+
   return (
-    <Card sx={{ minWidth: 200, cursor: "all-scroll" }} draggable {...rest}>
-      <CardContent>
+    <Card
+      draggable
+      {...rest}
+      sx={{ background: timeAgo && timeAgo.isDue ? "#FFD6D6" : "#FFF" }}
+    >
+      <CardContent sx={{ position: "relative" }}>
+        <CardHeader text={priority} />
         <Grid
           container
           rowGap={2}
           display={"flex"}
           justifyContent={"center"}
           flexDirection={"column"}
+          paddingTop={4}
         >
-          <Grid item>
-            <Chip
-              sx={{ textTransform: "capitalize" }}
-              label={priority}
-              color="primary"
-            />
+          <Grid container columnGap={2}>
+            <Grid item>
+              <AccessTimeIcon />
+            </Grid>
+            <Grid item>
+              <Typography
+                variant="subtitle1"
+                component="div"
+                sx={{ textTransform: "capitalize" }}
+              >
+                {timeAgo && timeAgo.date}
+              </Typography>
+            </Grid>
           </Grid>
+          <Divider />
           <Grid item>
             <Typography variant="h5" component="div" textOverflow="">
               {text}

@@ -8,10 +8,11 @@ export const pendingSlice = createSlice({
   initialState: {
     activeCount: 0,
     doneCount: 0,
-    data: mockedTasks,
+    data: mockedTasks.map((i) => ({ ...i, dueDate: i.dueDate })),
   },
   reducers: {
     setPendings: (state, action) => {
+      console.log(action.payload);
       return {
         ...state,
         data: action.payload,
@@ -19,7 +20,7 @@ export const pendingSlice = createSlice({
     },
     addPendings: (state, action) => {
       const { status } = action.payload;
-      console.log(status);
+      console.log("payload: ", action.payload);
       return {
         ...state,
         activeCount:
@@ -43,11 +44,6 @@ export const pendingSlice = createSlice({
         }),
       };
     },
-    /*deletePending: (state, action) => {
-			const id  = action.payload;
-			console.log('deleted :)', action.payload);
-			return {...state, data: state.data.filter(i => i.id !== id)}
-		}*/
   },
 });
 

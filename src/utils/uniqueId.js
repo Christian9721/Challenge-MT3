@@ -1,8 +1,5 @@
-export const uniqueId = (length = 16) => {
-  return parseInt(
-    Math.ceil(Math.random() * Date.now())
-      .toPrecision(length)
-      .toString()
-      .replace(".", ""),
-  );
+export const uniqueId = function (length = 6) {
+  return Math.random()
+    .toString(36)
+    .substring(2, length + 2);
 };

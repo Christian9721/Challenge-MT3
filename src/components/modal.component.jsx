@@ -11,6 +11,8 @@ import { addPendings } from "../store/modules/pendings";
 import { useDispatch } from "react-redux";
 import { STATUS } from "../constants/status.constants";
 import { PRIORITIES } from "../constants/priorities.constant";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs from "dayjs";
 
 const style = {
   position: "absolute",
@@ -30,6 +32,7 @@ const defaultValue = {
   priority: PRIORITIES.LOW,
   text: "",
   status: STATUS.ACTIVE,
+  dueDate: dayjs(Date.now()),
 };
 
 const ModalComponent = (props) => {
@@ -38,21 +41,17 @@ const ModalComponent = (props) => {
   const [data, setData] = useState(defaultValue);
 
   const handleData = (e) => {
+    console.log(e);
     const { name, value } = e.target;
     setData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSendData = () => {
-    dispatch(addPendings(data));
+    dispatch(addPendings({ ...data, dueDate: data.dueDate.format() }));
     handleClose();
   };
   return (
-    <Modal
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="child-modal-title"
-      aria-describedby="child-modal-description"
-    >
+    <Modal open={open} onClose={handleClose}>
       <Box sx={{ ...style, width: "auto" }}>
         <Grid container rowGap={4}>
           <h2 id="child-modal-title">Add a new pending</h2>
@@ -107,12 +106,39 @@ const ModalComponent = (props) => {
               <MenuItem value={STATUS.DELETED}>Deleted</MenuItem>
             </Select>
           </Field>
-          <Button variant="outlined" color="error" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="contained" color="primary" onClick={handleSendData}>
-            ADD
-          </Button>
+          <Field label="Due date">
+            <DatePicker
+              name="dueDate"
+              sx={{ width: "100%" }}
+              fullWidth
+              onChange={(value) => {
+                setData((prev) => ({ ...prev, dueDate: value }));
+              }}
+              value={data.dueDate}
+            />
+          </Field>
+          <Grid container spacing={2}>
+            <Grid item sm={12} md={6}>
+              <Button
+                variant="outlined"
+                color="error"
+                onClick={handleClose}
+                fullWidth
+              >
+                CLOSE
+              </Button>
+            </Grid>
+            <Grid item sm={12} md={6}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleSendData}
+                fullWidth
+              >
+                ADD
+              </Button>
+            </Grid>
+          </Grid>
         </Grid>
       </Box>
     </Modal>

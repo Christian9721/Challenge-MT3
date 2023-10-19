@@ -1,18 +1,17 @@
 import { useCallback, useMemo, useState } from "react";
 import CardComponent from "../components/card.component";
-import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import Modal from "../components/modal.component";
-import Box from "@mui/material/Box";
 import { useDispatch, useSelector } from "react-redux";
 import { setPendings, changeStatusPending } from "../store/modules/pendings";
 import { STATUS } from "../constants/status.constants";
 import useCount from "../hooks/useCount";
 import Typography from "@mui/material/Typography";
 import useDraggable from "../hooks/useDraggable";
+import SortIcon from "@mui/icons-material/Sort";
+import { Box } from "@mui/material";
 
 const Index = () => {
   const [open, setOpen] = useState(false);
@@ -23,11 +22,20 @@ const Index = () => {
     source: pendings,
     setPendings,
   });
+
   const handleOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleSort = () => {
+    dispatch(
+      setPendings(
+        pendings.toSorted((a, b) => new Date(a.dueDate) - new Date(b.dueDate)),
+      ),
+    );
   };
 
   const handleStatus = useCallback((id, status) => {
@@ -38,7 +46,15 @@ const Index = () => {
     return pendings.map((i, idx) => {
       if (i.status !== STATUS.ACTIVE) return null;
       return (
-        <Grid key={`${i.text}-${idx}`} item lg={3}>
+        <Grid
+          key={`${i.text}-${idx}`}
+          item
+          sm={12}
+          md={6}
+          lg={3}
+          position="relative"
+          minWidth={205}
+        >
           <CardComponent
             {...i}
             handleStatus={handleStatus}
@@ -53,20 +69,36 @@ const Index = () => {
 
   return (
     <>
-      <div style={{ border: "solid", padding: "6rem" }}>
+      <Box
+        padding={{ xs: "6rem 1rem", lg: "6rem" }}
+        sx={{ border: "solid", position: "relative" }}
+      >
         <Modal open={open} handleClose={handleClose} handleOpen={handleOpen} />
-        <Grid container gap={10} columns={16}>
-          <Grid item display="flex" lg={3}>
+        <Button
+          onClick={handleSort}
+          variant="outlined"
+          startIcon={<SortIcon />}
+          sx={{ position: "absolute", top: 0, right: 0, margin: "1rem" }}
+        >
+          SORT BY DUE DATE
+        </Button>
+        <Grid
+          container
+          gap={10}
+          columns={16}
+          justifyContent={{ xs: "center", lg: "flex-start" }}
+        >
+          <Grid item display="flex" sm={12} md={6} lg={3} minWidth={205}>
             <Button
               sx={{ width: "100%", minHeight: "216.516px" }}
               variant="outlined"
               startIcon={<AddIcon />}
               onClick={handleOpen}
-            ></Button>
+            />
           </Grid>
           {pendingElements}
         </Grid>
-      </div>
+      </Box>
       <Grid container spacing={0} marginTop={8}>
         <Grid item xs={2}>
           <Typography variant="h5" component="div">
