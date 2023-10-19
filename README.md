@@ -47,6 +47,7 @@ The project was created with `vite`, as it provides more advantages compared to 
 * To improve the development experience, `Prettier`, `Eslint` and `Jest` were installed.
 * Only `Material` (and its dependencies) and `redux` libraries were installed.
 * Clean architectural design was used.
+* Custom `Node` commands to speed up the development process
 
 # FEATURES 🎉
 - File names come with this format "name.type.extension", example: `card.component.jsx`, this way it is easier to search with VS Code for file types.
@@ -74,3 +75,4 @@ The project was created with `vite`, as it provides more advantages compared to 
 - Theme configuration for Material, as some colors are static.
 - I would have created a `Select` component to avoid repeating it in the code.
 - Improve the application of some colors and contrast.
+- Add more tests :)
